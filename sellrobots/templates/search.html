@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html xmlns:wb="http://open.weibo.com/wb" lang="en">
+  <meta property="wb:webmaster" content="46970584e12c4294" />
+  <head>
+    <script src="http://tjs.sjs.sinajs.cn/open/api/js/wb.js?appkey=" type="text/javascript" charset="utf-8"></script>
+    <title>Enyruas's site</title>
+    {% load staticfiles %}
+    <link href="{% static "bootstrap/css/bootstrap.css" %}" rel="stylesheet">
+  <head>
+
+<body>
+  <div id="fb-root"></div>
+  <script language=javascript>
+    (function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+        fjs.parentNode.insertBefore(js, fjs);
+      }(document, 'script', 'facebook-jssdk'));
+    function   click1(){
+      dw = document.getElementById("keyword").value;
+      pg = document.getElementById("page").value;
+      location.href='/robots/search/'+dw +'/'+pg;
+      }                        
+  </script>
+
+<div class="row">
+    <div class="span6 text-center">
+    <h2> Welcome to search!</h2>
+    <form class="form-search">
+    Keyword: <input type="text" value="" id ="keyword" name="keyword" class="input-medium search-query">
+    <input type="hidden" value="1" id="page" name="page"><input type="text" style="display: none">
+    <input type="button" value="search" class="btn btn-primary" onclick=click1()>
+    </form>
+
+    </div>
+    
+    {% if username == 0  or username == -1 %}
+    <div class="span10 text-center"
+        <br><br>
+      <form method="post">{% csrf_token %}
+        <p>username<input type="text" name="username">
+        password<input type="password" name="password">
+        <input type="hidden" name="sign" value="signin">
+        <input type="submit" value="sign in"></p>
+      </form>
+        <a href="/robots/signup">sign up</a>
+        {% if username == -1 %}<p style="color:FF0000;">wrong username or password!</p>{% endif %}
+    </div>
+    {% else %}
+    <br><br>
+    <div class="span2 text-center">
+      <form method="post">{% csrf_token %}
+      <p>{{username}}</p>
+      <input type="hidden" name="sign" value="signout">
+      <input type="submit" value="signout">
+      </form>
+    </div>
+    {% endif %}
+    
+    <div style="width:200px; height:200px; float:right;">
+      <div><wb:share-button size="big" ></wb:share-button></div>
+      <div class="fb-like" data-href="http://developers.facebook.com/docs/reference/plugins/like" data-send="false" data-layout="button-count" data-width="450" data-show-faces="false"></div>  
+    
+      <div>
+        <a href="https://twitter.com/share" class="twitter-share-button" data-size="large" data-count="none">Tweet</a>
+        <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+      </div>
+      
+      <div>
+        <script src="//platform.linkedin.com/in.js" type="text/javascript"> lang: en_US  </script> <script type="IN/Share"></script>
+      </div>
+
+     <!-- Place this tag where you want the +1 button to render. -->
+     <div class="g-plusone" data-annotation="none"></div>
+     <!-- Place this tag after the last +1 button tag. -->
+     <script type="text/javascript">
+       (function() {
+           var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+           po.src = 'https://apis.google.com/js/plusone.js';
+           var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);})();
+     </script>
+
+      <div>
+        <script type="text/javascript" src="http://widget.renren.com/js/rrshare.js"></script>
+        <a name="xn_share" onclick="shareClick()" type="icon_large" href="javascript:;"></a>
+        <script type="text/javascript">
+        function shareClick() {
+          var rrShareParam = {
+            resourceUrl : '', //.....Url
+            srcUrl : '',  //.......Url,...header..Referer,.............resourceUrl..
+            pic : '',   //.......Url
+            title : '',   //.....
+            description : ''  //.......
+            };
+            rrShareOnclick(rrShareParam);
+            }
+        </script>
+      </div>
+    </div>
+    <!-- AddThis Smart Layers BEGIN -->
+    <!-- Go to http://www.addthis.com/get/smart-layers to customize -->
+    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid="></script>
+    <script type="text/javascript">
+      addthis.layers({
+          'theme' : 'transparent',
+              'share' : {
+                    'position' : 'left',
+                          'numPreferredServices' : 5
+                              },  
+                                  'whatsnext' : {}  
+                                    });
+                                    </script>
+                                    <!-- AddThis Smart Layers END -->
+    <div>
+    <span class='st_facebook_large' displayText='Facebook'></span>
+    <span class='st_twitter_large' displayText='Tweet'></span>
+    <span class='st_linkedin_large' displayText='LinkedIn'></span>
+    <span class='st_googleplus_large' displayText='Google +'></span>
+    <span class='st_sina_large' displayText='Sina'></span>
+    </div>
+    <script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script>
+
+
+</div>
+
+{% if keyword > 0 %}
+
+<hr>
+<div class=" text-center">
+   <p style="font-size:18pt;">{{ keyword }}: <strong>{{numberOfResults}}</strong> results found </p>
+</div>
+
+{% if numberOfResults > 0 %}
+<div class="container">
+<table border="1" cellspacing="0" cellpadding="6" style="text-align:center;">
+<tr>
+    <th> id </th>
+    <th> BrandName </th>
+    <th> Name </th>
+    <th> Price </th>
+    <th> datasheet </th>
+</tr>
+ 
+        {% for p in products %}
+
+<tr>
+    <td> <img src="http://uk.farnell.com/productimages/farnell/standard/{{p.image.baseName}}" alt="Big Boat"  width="60" height="44"><br><a href="http://uk.farnell.com/{{p.sku}}"> Farnell {{ p.sku}} </a> </td>
+    <td> {{ p.brandName }}</td>
+    <td> {{p.displayName}} </td>
+    <td> {%for price in p.prices %}{{ price.cost }}: from {{price.from}} to {{price.to}}<br> {%endfor%}</td>
+    <td> <a href="{{p.datasheets.0.url}}"> pdf </a> </td>
+</tr>
+
+        {% endfor %}
+
+</table>
+</div>
+
+  <hr>
+  <div class="container ">
+    <table cellpadding="20" style="text-align:center">
+      {% if page != 1%}<td><a href="/robots/search/{{keyword}}/1">Top</a></td>
+      <td><a href="/robots/search/{{keyword}}/{{page|add:"-1"}}">prev</a></td>{%endif%}
+      {% for a in pageRange %}<td>{% if a != page %}<a href="/robots/search/{{keyword}}/{{a}}"> {%endif%}{{a}}{% if a != page %}</a>{%endif%}</td>{% endfor %}
+      {% if page != numberPages %}<td> <a href="/robots/search/{{keyword}}/{{page|add:"1"}}">next</a></td>
+      <td><a href="/robots/search/{{keyword}}/{{numberPages}}">End</a></td>{%endif%}
+    </table>
+  </div>
+  <hr>
+
+{% endif %}
+{% endif %}
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-42612278-1']);
+  _gaq.push(['_trackPageview']);
+
+        (function() {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+          })();
+
+</script>
+
+</body>
+</html>

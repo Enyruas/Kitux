@@ -1,0 +1,18 @@
+<h2> Search Results </h2>
+
+{% if result.numberOfResults %}
+
+<table border="1">
+<tr><td>Brand </td><td>{{result.brandName}}</td></tr>
+<tr><td>Name  </td><td>{{result.displayName}}</td></tr>
+<tr><td> Re   </td><td>{{result.numberOfResults}}</td></tr>
+<tr><td> Unit </td><td>{{result.unitOfMeasure}}</td></tr>
+<tr><td> PackSize</td><td>{{result.packSize}}</td></tr>
+<tr><td> id   </td><td>{{result.product_id}}</td></tr>
+</table>
+
+{% else %}
+
+<h3> Sorry, no result found. </h3>
+
+{% endif %}
